@@ -8,8 +8,12 @@ class window.AppView extends Backbone.View
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
     'click .stand-button': -> @model.get('playerHand').stand()
+    # @model.set('bust'): -> ".hit-button display:none"
 
   initialize: ->
+    @model.get('playerHand').on 'bust', => console.log(this.$el.find('.player-hand-container').prepend(
+      $('<h3>LOSER!</h3>')))
+    @model.get('playerHand').on 'bust', => console.log(this.$el.find('.hit-button').attr('disabled', 'disabled'))
     @render()
 
   render: ->
