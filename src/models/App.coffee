@@ -5,7 +5,7 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
-    # @set 'playerBust', false
+
     @get('playerHand').on('bust', @dealerWins, @)
                       .on('stand', @dealerPlays, @)
     @get('dealerHand').on('bust', @playerWins, @)
@@ -15,8 +15,7 @@ class window.App extends Backbone.Model
     hand = @get('dealerHand')
     hand.at(0).flip()
     hand.hit() while hand.minScore() < 17 || hand.minScore() < 17
-    if hand.minScore() <= 21 then hand.stand()
-    # some logic here needed?
+    if hand.minScore() < 22 then hand.stand()
 
   compareScores: ->
     if @get('playerHand').scores()[1] > 21 then playerScore = @get('playerHand').scores()[0]
