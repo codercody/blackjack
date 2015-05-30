@@ -14,13 +14,18 @@ class window.App extends Backbone.Model
   dealerPlays: ->
     hand = @get('dealerHand')
     hand.at(0).flip()
-    hand.hit() while hand.scores()[0] < 17 || hand.scores()[1] < 17
-    if hand.scores() <= 21 then hand.stand()
+    hand.hit() while hand.minScore() < 17 || hand.minScore() < 17
+    if hand.minScore() <= 21 then hand.stand()
     # some logic here needed?
 
   compareScores: ->
-    if @get('playerHand').scores() == @get('dealerHand').scores() then @tied()
-    else if @get('playerHand').scores() > @get('dealerHand').scores()
+    if @get('playerHand').scores()[1] > 21 then playerScore = @get('playerHand').scores()[0]
+    else playerScore = @get('playerHand').scores()[1]
+    if @get('dealerHand').scores()[1] > 21 then dealerScore = @get('dealerHand').scores()[0]
+    else dealerScore = @get('dealerHand').scores()[1]
+
+    if playerScore == dealerScore then @tied()
+    else if playerScore > dealerScore
       @playerWins()
     else @dealerWins()
 
